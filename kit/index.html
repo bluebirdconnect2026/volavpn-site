@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Build your own line — VolaVPN</title>
+<meta name="description" content="Set up a VPN server on a cloud server you control, then add it to Vola by scanning one QR code.">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* only what ../style.css doesn't cover: command blocks and fold-out rows */
+  pre.term{white-space:pre;margin:10px 0 14px}
+  details{margin:10px 0 14px}
+  details summary{cursor:pointer;color:var(--cyn,#4DD8FF)}
+  details[open] summary{margin-bottom:8px}
+  .step{font-family:var(--mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<!-- Web version of the in-app guide (DESIGN-2 §4.14.2). Kit 1.1.0. Maintained with server-kit/ (Lane K). -->
+<header class="bar">
+  <span class="brand">VOLAVPN</span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../support.html">Support</a>
+    <a href="index.html" aria-current="page">Build your own line</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Build your own line</h1>
+  <p class="lead">Set up a VPN server on a cloud server you control, then add it to Vola by scanning
+    one QR code. Once the server is running, the setup script takes about two minutes.</p>
+
+  <h2 class="step">What you need</h2>
+  <ul>
+    <li>A cloud server you control, running Ubuntu 22.04 or 24.04 (x86_64 or arm64) with a public
+      IPv4 address. The smallest size is enough: 1 vCPU and 1 GB of memory.</li>
+    <li>A way to run commands on it: an SSH app, a computer, or your provider's browser console.</li>
+    <li>A name that points to the server. No domain? The script uses a free name like
+      <code>203-0-113-7.sslip.io</code>, which always points to your server's address.</li>
+    <li>Vola doesn't provide, rent or manage servers. The server, what it costs and what passes
+      through it are yours.</li>
+  </ul>
+
+  <h2 class="step">1 · Get a server</h2>
+  <p>Any cloud provider works. Some have a free tier — Oracle Cloud's Always Free offer is one
+    option. Free allowances and their terms change, so check the provider's current terms before
+    you rely on one.</p>
+
+  <h2 class="step">2 · Open three ports</h2>
+  <p>In your provider's firewall — it may be called a security list, security group or network
+    security group — allow inbound traffic on:</p>
+  <ul class="tight">
+    <li><code>UDP 500</code></li>
+    <li><code>UDP 4500</code></li>
+    <li><code>TCP 80</code> — used for a few seconds to get and renew the certificate</li>
+  </ul>
+  <p>The script sets up the server's own firewall for you.</p>
+  <details>
+    <summary>Where is this at my provider?</summary>
+    <ul>
+      <li><strong>Oracle Cloud</strong>: add ingress rules for UDP 500, UDP 4500 and TCP 80 to the
+        subnet's security list or the instance's network security group. The kit handles the
+        iptables REJECT rules that Oracle's Ubuntu image has.</li>
+      <li><strong>AWS (EC2 / Lightsail)</strong>: add inbound rules for UDP 500, UDP 4500 and TCP 80
+        to the instance's security group (on Lightsail, the instance's Networking tab).</li>
+      <li><strong>Azure</strong>: add inbound security rules for UDP 500, UDP 4500 and TCP 80 to the
+        VM's network security group.</li>
+      <li><strong>Google Cloud</strong>: create a VPC firewall rule that allows ingress on UDP 500,
+        UDP 4500 and TCP 80 to the instance, for example through a network tag.</li>
+    </ul>
+  </details>
+
+  <h2 class="step">3 · Run one command</h2>
+  <p>Connect to your server and run:</p>
+<pre class="term">curl -fsSLO [KIT_URL]/vola-server.sh &amp;&amp; sudo bash vola-server.sh install --user phone</pre>
+  <p class="dim"><code>phone</code> is the VPN username. To use another one, start with a letter; then
+    letters, digits, - or _. Up to 32 characters.</p>
+  <details>
+    <summary>Read the script before you run it</summary>
+<pre class="term">curl -fsSLO [KIT_URL]/vola-server.sh
+curl -fsSLO [KIT_URL]/SHA256SUMS
+sha256sum -c SHA256SUMS
+less vola-server.sh
+sudo bash vola-server.sh install --user phone</pre>
+    <p class="dim">The script is plain text. SHA256SUMS lets you check that the file is the one
+      published at [KIT_URL].</p>
+  </details>
+  <p class="dim">Have a domain? Point its A record at the server first, then add
+    <code>--host vpn.example.org</code>.</p>
+  <p class="dim">The script installs strongSwan and gets a certificate from Let's Encrypt — or from
+    ZeroSSL if Let's Encrypt is busy — that iPhone trusts without installing anything. If you use
+    the free sslip.io name, also add <code>--email</code> with your address so the ZeroSSL fallback
+    can work.</p>
+
+  <h2 class="step">4 · Scan the code</h2>
+  <p>When the script finishes, it shows a QR code for the user it created. The code includes the
+    password, so don't post it or keep a screenshot.</p>
+  <p>In Vola, tap Add a line, then Scan.</p>
+  <p class="dim">The password is shown only once. Lost it? Run
+    <code>sudo vola-server user add phone --reset</code> for a new one. To show the code again
+    without the password, run <code>sudo vola-server qr phone</code>.</p>
+
+  <h2 class="step">5 · Run a proof</h2>
+  <p>Vola checks the new line before you rely on it. Once it passes, the line is yours — it keeps
+    working after the starter line closes.</p>
+
+  <h2 class="step">Keeping it running</h2>
+  <p>The script turns on automatic security updates and certificate renewal. Check the server any
+    time with <code>sudo vola-server status</code>, or remove everything with
+    <code>sudo vola-server uninstall</code>.</p>
+  <p>Sharing with someone? Give each person their own user
+    (<code>sudo vola-server user add &lt;name&gt;</code>) so you can remove one without affecting
+    the others.</p>
+  <p>You're responsible for your server and how it's used, including your cloud provider's
+    terms.</p>
+
+  <div class="btnrow">
+    <a class="btn go" href="vola-server.sh">View the script →</a>
+    <a class="btn" href="SHA256SUMS">SHA256SUMS →</a>
+  </div>
+</main>
+
+<footer>
+  <span>VolaVPN</span>
+  <a href="../index.html">Home</a>
+  <a href="../support.html">Support</a>
+  <span class="sp"></span>
+  <span class="faint">Kit 1.1.0</span>
+</footer>
+</body>
+</html>

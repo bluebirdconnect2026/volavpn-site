@@ -4,106 +4,156 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Support — VolaVPN</title>
-<meta name="description" content="Help, troubleshooting and contact for the VolaVPN app.">
-<meta name="color-scheme" content="dark">
+<meta name="description" content="Help for the VolaVPN app: what your server needs, a strongSwan example, the line format used by QR codes, and how to reach us.">
+<meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="bar">
-  <span class="brand">VOLAVPN<span class="cur">_</span></span>
+  <a class="brand" href="index.html">VolaVPN</a>
   <nav>
     <a href="index.html">Home</a>
+    <a href="kit/">Build your own line</a>
+    <a href="support.html" aria-current="page">Support</a>
     <a href="privacy.html">Privacy</a>
     <a href="terms.html">Terms</a>
-    <a href="support.html" aria-current="page">Support</a>
   </nav>
 </header>
 
 <main>
-  <h1><span class="g">Support</span></h1>
-  <p class="upd">Last updated: September 16, 2026</p>
+  <h1>Support</h1>
+  <p class="lead">Answers about the starter line, what your own server needs and how lines are shared.
+    The same answers are in the app under Paperwork › FAQ.</p>
 
-  <p class="lead">Need a hand with VolaVPN? Email us and we'll help. Most questions are
-    answered below — a quick read here is often faster than waiting on a reply.</p>
+  <h2 id="contact">Contact</h2>
+  <p>Email <a href="mailto:bluebirdconnect2026@gmail.com">bluebirdconnect2026@gmail.com</a>.
+    It helps to include your iPhone model, your iOS version, and what the proof run or the logbook shows.
+    Please don't send passwords.</p>
 
-  <div class="panel">
-    <h3 class="grn">Contact</h3>
-    <p class="dim">Email <a href="mailto:bluebirdconnect2026@gmail.com">bluebirdconnect2026@gmail.com</a>.
-      We usually reply within 1–2 business days. To help us help you faster, include your device
-      model, your iOS version, and a short description of what you tapped and what happened.</p>
+  <h2 id="build">Build your own line</h2>
+  <p>No server yet? <a href="kit/">The setup guide</a> walks you through turning an Ubuntu cloud server
+    you control into a server your iPhone trusts, then scanning it into VolaVPN. The same guide is in the
+    app under Lines › Build your own line.</p>
+
+  <h2 id="faq">FAQ</h2>
+<!-- BEGIN GENERATED from Sources/VOLAVPN/Resources/Documents/faq.md sha256=777109f36037fd7f8d4cce1edc7385ec160d29d7ca9459dd32a7cd507549fd9c -->
+<h3 id="why-two-hours">Why two hours?</h3>
+<p>The starter line is there so you can use Vola right away, before your own server is ready. It's a starting allowance, not the product: Vola is built around the server you run, and everything else keeps working after the starter line closes.</p>
+<p>The two hours count from the first time you open Vola, whether or not you're connected. They can't be extended or earned, and there's nothing to buy.</p>
+<h3 id="what-happens-at-closing-time">What happens at closing time?</h3>
+<ul>
+  <li>The starter line stops working and is removed from this iPhone. Its saved password is deleted.</li>
+  <li>Your own lines, auto-join rules, proof runs and the logbook keep working.</li>
+  <li>If Vola isn't open at closing time, the starter line closes the next time you open it. Until then it disconnects whenever this iPhone sleeps.</li>
+  <li>If you turned on "Hand over when the starter line closes" and your line's last proof passed, Vola switches to that line when the starter line closes. If Vola isn't open then, this happens the next time you open it.</li>
+  <li>Moving this iPhone's clock back doesn't add time. Moving it forward closes the starter line early, and that can't be undone.</li>
+  <li>Reinstalling Vola doesn't restart the two hours, because iOS usually keeps the saved start time.</li>
+</ul>
+<h3 id="what-do-i-need-for-my-own-line">What do I need for my own line?</h3>
+<ul>
+  <li><strong>A server iOS can connect to natively with username and password (EAP) sign-in,</strong> such as strongSwan. OpenVPN, WireGuard and L2TP servers are not supported.</li>
+  <li><strong>A certificate iPhone already trusts.</strong> The server proves who it is with a certificate from a public certificate authority, such as Let's Encrypt. Vola can't install certificates, so a server with a self-signed certificate won't connect.</li>
+  <li><strong>A name for the server.</strong> Use a domain name that points to the server and is included in its certificate; the Remote ID is that same name. No domain? The Vola setup script uses a free sslip.io name, which always points to your server's address.</li>
+  <li><strong>Open ports.</strong> Allow UDP 500 and UDP 4500 in your provider's firewall and on the server (and ESP, IP protocol 50, if your provider filters it).</li>
+  <li><strong>Forwarding.</strong> Turn on IP forwarding and NAT on the server, so traffic can leave it. Without them the line connects, but your exit address doesn't change.</li>
+  <li><strong>A username and password</strong> for each person who uses the server.</li>
+</ul>
+<p>The setup script does all of this on an Ubuntu cloud server you control. <a href="kit/">Build your own line</a> walks you through it.</p>
+<h3 id="is-it-safe-to-share-a-line-with-its-password">Is it safe to share a line with its password?</h3>
+<p>Anyone who gets a line with its password can use your server, and their traffic goes out through your server. Share it only with people you trust, and give each person their own user so you can remove one without affecting the others.</p>
+<p>A line shared without its password contains the server address and username. Whoever uses it needs the password from you.</p>
+<p>Vola can't take back a line you've shared. To stop someone using your server, delete or reset their user on the server: <code>sudo vola-server user del &lt;name&gt;</code>, or <code>sudo vola-server user add &lt;name&gt; --reset</code> for a new password.</p>
+<h3 id="why-doesn-t-vola-show-data-usage">Why doesn't Vola show data usage?</h3>
+<p>iOS doesn't give personal VPN apps the number of bytes sent and received, so Vola doesn't show it rather than make it up. The logbook shows what Vola can know: when each session started and ended, how long it lasted and why it ended.</p>
+<!-- END GENERATED -->
+
+  <h2 id="strongswan-example">A strongSwan example</h2>
+  <p>If you set up a server by hand instead of with the setup script, this is the shape of a minimal
+    strongSwan configuration (<code>/etc/swanctl/conf.d/home.conf</code>) that VolaVPN can connect to.
+    It is an example: every value is a placeholder, so adjust it to your server.</p>
+  <pre><code>connections {
+  home {
+    version = 2
+    remote_addrs = %any
+    pools = home-pool
+    send_cert = always
+    local {
+      auth = pubkey
+      certs = vpn.example.com.pem
+      id = vpn.example.com
+    }
+    remote {
+      auth = eap-mschapv2
+      eap_id = %any
+    }
+    children {
+      home {
+        local_ts = 0.0.0.0/0
+      }
+    }
+  }
+}
+
+pools {
+  home-pool {
+    addrs = 10.10.10.0/24
+    dns = 1.1.1.1
+  }
+}
+
+secrets {
+  eap-alice {
+    id = alice
+    secret = "choose-a-long-password"
+  }
+}</code></pre>
+  <ul>
+    <li>The certificate goes in <code>/etc/swanctl/x509/</code>, its private key in
+      <code>/etc/swanctl/private/</code> and the issuer's intermediate certificate in
+      <code>/etc/swanctl/x509ca/</code>. Load everything with <code>sudo swanctl --load-all</code>.</li>
+    <li>In VolaVPN, the server address and the Remote ID are both <code>vpn.example.com</code>, the name in
+      the certificate. The username is <code>alice</code>.</li>
+    <li>Allow UDP 500 and UDP 4500 in, and turn on IP forwarding and NAT for <code>10.10.10.0/24</code>.</li>
+  </ul>
+
+  <h2 id="line-format">The line format</h2>
+  <p>A line's QR code, the link you paste and the link the setup script prints are the same text, format
+    <code>vola-line/1</code>:</p>
+  <pre><code>volavpn://line?v=1&amp;name=Home&amp;host=vpn.example.org&amp;rid=vpn.example.org&amp;user=alice</code></pre>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Key</th><th>Required</th><th>Meaning</th><th>Limits</th></tr></thead>
+    <tbody>
+      <tr><td><code>v</code></td><td>Yes</td><td>Format version, <code>1</code></td><td>Whole number</td></tr>
+      <tr><td><code>host</code></td><td>Yes</td><td>Server address</td><td>A domain name (lowercase, labels of 1–63 letters, digits or hyphens, at least two labels, up to 253 characters) or a dotted IPv4 address. Non-ASCII domains in punycode.</td></tr>
+      <tr><td><code>rid</code></td><td>No</td><td>Remote ID</td><td>Up to 253 printable ASCII characters, no spaces. Missing or empty means the same line's <code>host</code>.</td></tr>
+      <tr><td><code>user</code></td><td>Yes</td><td>Username</td><td>1–64 characters, no control characters</td></tr>
+      <tr><td><code>name</code></td><td>No</td><td>Line name</td><td>Missing means the <code>host</code>. On import, names longer than 32 characters are shortened and a repeated name gets “ 2”, “ 3”…</td></tr>
+      <tr><td><code>pw</code></td><td>No</td><td>Password — only in a line shared with its password</td><td>1–128 characters, no control characters. Empty means missing.</td></tr>
+    </tbody>
+  </table>
   </div>
-
-  <div class="ph">Getting started</div>
-  <div class="panel">
-    <h3 class="grn">How do I connect?</h3>
-    <p class="dim">Open the app, go to the STATUS tab, and tap CONNECT. The first time, iOS asks
-      permission to add a VPN configuration — approve it with Face ID or your passcode. The status
-      then changes to ".UP". Tap DISCONNECT to turn it off.</p>
-
-    <h3 class="grn">Do I need an account?</h3>
-    <p class="dim">No. There is no sign-up or login. You can install the app and use every part of
-      it without creating an account.</p>
-
-    <h3 class="grn">The connection won't come up.</h3>
-    <p class="dim">Check that you have a working internet connection, then try again. If iOS never
-      showed the VPN permission prompt, delete any half-added VolaVPN entry under
-      Settings › General › VPN &amp; Device Management and reconnect. Toggling Airplane Mode off and
-      on, or restarting the app, clears most transient failures.</p>
-
-    <h3 class="grn">Can I use my own server?</h3>
-    <p class="dim">Yes. In the CONF tab you can enter your own server credentials instead of the
-      built-in one. This is optional — the app works out of the box without it.</p>
-  </div>
-
-  <div class="ph">The network toolkit</div>
-  <div class="panel">
-    <h3 class="grn">What can the tools do?</h3>
-    <p class="dim">The TOOLS tab runs seven on-device diagnostics: a latency probe, DNS resolver
-      lookups, port reachability, a throughput test, a local-network scan, an egress IP / ASN
-      lookup, and captive-portal detection. They run from your device against the network you are
-      on.</p>
-
-    <h3 class="grn">Where do the tool results go?</h3>
-    <p class="dim">Nowhere. Results are shown to you on the device and are never uploaded or stored
-      on a server.</p>
-
-    <h3 class="grn">Why do throughput values sometimes show "—"?</h3>
-    <p class="dim">A dash means the value has not been measured, rather than a made-up number.
-      VolaVPN never shows figures it did not actually measure.</p>
-  </div>
-
-  <div class="ph">Privacy &amp; billing</div>
-  <div class="panel">
-    <h3 class="grn">Do you keep logs of my traffic?</h3>
-    <p class="dim">No. VolaVPN does not log the contents or destinations of the traffic you send
-      through the tunnel. The full details are in the
-      <a href="privacy.html">Privacy Policy</a>.</p>
-
-    <h3 class="grn">How much does it cost?</h3>
-    <p class="dim">VolaVPN is free to download and use. There is no subscription and no in-app
-      purchase.</p>
-
-    <h3 class="grn">How do I delete my data?</h3>
-    <p class="dim">Because the app does not collect personal data or create an account, there is
-      nothing stored on our side to delete. Removing the app from your device removes its on-device
-      data.</p>
-  </div>
-
-  <div class="btnrow">
-    <a class="btn go" href="mailto:bluebirdconnect2026@gmail.com">Email support →</a>
-    <a class="btn" href="privacy.html">Privacy Policy →</a>
-    <a class="btn" href="terms.html">Terms of Use →</a>
-  </div>
+  <ul>
+    <li><strong>Two kinds only:</strong> without a password (no <code>pw</code> key, the default) and with
+      one. There is no “verified” field: every imported line gets its own proof run before VolaVPN calls it
+      proven.</li>
+    <li><strong>Encoding:</strong> UTF-8, and every value is percent-encoded except the unreserved
+      characters <code>A–Z a–z 0–9 - . _ ~</code>. VolaVPN writes the keys in the order
+      <code>v, name, host, rid, user, pw</code> and reads them in any order. Key names are lowercase.</li>
+    <li><strong>Size:</strong> at most 1024 bytes. QR codes use error correction level M.</li>
+    <li><strong>Versions:</strong> a line with <code>v</code> greater than 1 asks you to update VolaVPN.
+      Unknown keys are ignored; a key that appears twice makes the line invalid.</li>
+    <li><strong>Pasting:</strong> leading and trailing spaces are ignored, and a single
+      <code>volavpn://line?</code> link inside other text (for example, copied with a terminal prompt) is
+      found. Text with two links is rejected.</li>
+    <li><strong>Older setup script output:</strong> VolaVPN also reads the
+      <code>{"format":"vola-server/1", …}</code> line printed by setup script 1.0.x (server address,
+      Remote ID and username; no password).</li>
+  </ul>
 </main>
 
-<footer>
-  <span>© 2026 VolaVPN</span>
-  <a href="index.html">Home</a>
-  <a href="privacy.html">Privacy</a>
-  <a href="terms.html">Terms</a>
-  <a href="mailto:bluebirdconnect2026@gmail.com">bluebirdconnect2026@gmail.com</a>
-  <span class="sp"></span>
-  <span class="faint">Support</span>
+<footer class="foot">
+  <p>VolaVPN · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a></p>
 </footer>
 </body>
 </html>

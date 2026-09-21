@@ -3,79 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VolaVPN — Fast VPN & Network Toolkit</title>
-<meta name="description" content="VolaVPN is a no-frills Fast VPN wrapped around a real network toolkit — ping, DNS, speed and port checks, plus live connection monitoring, in a clean terminal interface.">
-<meta name="color-scheme" content="dark">
+<title>VolaVPN — a client for the VPN server you run</title>
+<meta name="description" content="VolaVPN helps you build your own VPN server, proves it works before you rely on it, and lets you share it by QR code. A 2-hour starter line gets you going.">
+<meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="bar">
-  <span class="brand">VOLAVPN<span class="cur">_</span></span>
+  <a class="brand" href="index.html">VolaVPN</a>
   <nav>
     <a href="index.html" aria-current="page">Home</a>
+    <a href="kit/">Build your own line</a>
+    <a href="support.html">Support</a>
     <a href="privacy.html">Privacy</a>
     <a href="terms.html">Terms</a>
-    <a href="support.html">Support</a>
   </nav>
 </header>
 
 <main>
-  <section class="hero">
-    <h1><span class="g">Fast VPN</span> &amp; Network Toolkit</h1>
-    <p class="lead">A no-frills Fast VPN with a real network toolkit behind it — ping, DNS,
-      speed and port checks, plus live connection monitoring, all in a
-      clean terminal interface.</p>
+  <h1>A client for the VPN server you run.</h1>
+  <p class="lead">VolaVPN for iPhone helps you build a server, proves it works before you rely on it,
+    and lets you share it. A 2-hour starter line lets you try it today.</p>
 
-    <div class="badges">
-      <span class="on">Encrypted</span>
-      <span>On-device diagnostics</span>
-      <span>No account required</span>
-      <span>Live monitoring</span>
+  <div class="linecard" aria-label="Example line card">
+    <p class="label">Example</p>
+    <div class="row"><span class="k">NAME</span><span class="fill"></span><span>Home</span></div>
+    <div class="row"><span class="k">SERVER</span><span class="fill"></span><span>vpn.example.org</span></div>
+    <div class="row"><span class="k">PROOF</span><span class="fill"></span><span>passed · dial 1.87 s</span></div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Build your own line</h3>
+      <p>A step-by-step guide and a setup script you can read before you run it turn an Ubuntu cloud
+        server you control into a server your iPhone trusts. It ends with a QR code you scan into VolaVPN.</p>
     </div>
-
-    <div class="term" aria-hidden="true">
-<span class="d">$</span> vola status<br>
-LINK        <span class="a">.DOWN</span>        node <span class="c">US-SERVER-1</span> · U.S.<br>
-THROUGHPUT  tx <span class="d">—</span>  rx <span class="d">—</span>     rtt <span class="c">14ms</span>  jit 4.0ms  loss 0.0%<br>
-INTEGRITY   egress ip <span class="d">—</span>   dns resolver <span class="c">ok</span>   captive <span class="c">none</span><br>
-<span class="d"># unmeasured throughput shows "—" rather than a guess.</span>
+    <div class="card">
+      <h3>Proof run</h3>
+      <p>Before you rely on a line, VolaVPN resolves the address, dials it, checks that your exit address
+        changed and holds the connection for 10 seconds — each step with a real timestamp.</p>
     </div>
-  </section>
-
-  <div class="ph">What it does</div>
-  <div class="grid">
-    <div class="card"><div class="k">Connect</div><p>One-tap secure with a live status readout: link state, session time, throughput.</p></div>
-    <div class="card"><div class="k">Nodes</div><p>Searchable server list with per-node round-trip time and packet loss — pick the fastest route, not a random flag.</p></div>
-    <div class="card"><div class="k">Toolkit</div><p>Ping, DNS lookups, throughput test, port reachability, egress IP/ASN, local-network scan and captive-portal probe.</p></div>
-    <div class="card"><div class="k">Monitor</div><p>Your live connection at a glance — Wi-Fi or cellular, online state, whether the VPN is protecting you, metered and low-data flags — read straight from the system.</p></div>
-    <div class="card"><div class="k">Latency timeline</div><p>A latency history that builds while you use the app: average, p95, max and loss, measured on-device — not a single one-off ping.</p></div>
-    <div class="card"><div class="k">Privacy-first</div><p>A tool, not a data funnel. Diagnostics run on your device; no account is needed to explore the app.</p></div>
+    <div class="card">
+      <h3>Share by QR code</h3>
+      <p>Share a line you run as a QR code or as a configuration profile, without its password by default.
+        Including the password asks you to confirm and to unlock with Face ID or your passcode first.</p>
+    </div>
   </div>
 
-  <div class="ph">Straight answers</div>
-  <div class="panel">
-    <h3 class="grn">Does it keep logs of my traffic?</h3>
-    <p class="dim">No. VolaVPN does not log the contents or destinations of the traffic you send through the tunnel. See the <a href="privacy.html">Privacy Policy</a> for exactly what is and isn't handled.</p>
-    <h3 class="grn">Do the network tools send my data anywhere?</h3>
-    <p class="dim">The diagnostics (ping, DNS, port and speed checks, etc.) run from your device against the hosts you test. Results stay on your device.</p>
-    <h3 class="grn">Do I need an account?</h3>
-    <p class="dim">No account is required to open the app and use the interface.</p>
-  </div>
+  <h2>Also in the app</h2>
+  <ul>
+    <li><strong>Plain-English failures.</strong> When a line fails, VolaVPN shows what went wrong where it
+      can tell — an address that doesn't resolve, a server that doesn't answer, an expired certificate —
+      and what to check next.</li>
+    <li><strong>Auto-join rules.</strong> Connect on cellular, or on Wi-Fi except the networks you list.
+      You type the network names, so VolaVPN doesn't need your location.</li>
+    <li><strong>Your lines, your names.</strong> Add several servers, name and rename them, and keep them
+      in the order you like. Import a line by scanning its QR code, choosing a QR image, pasting its
+      link or typing it in.</li>
+    <li><strong>Logbook.</strong> Every session with its start, end, duration and why it ended. VolaVPN
+      doesn't show bytes sent or received — iOS doesn't provide that to apps like this one.</li>
+    <li><strong>Starter line.</strong> Open for 2 hours from the first time you open VolaVPN. When it
+      closes, everything else keeps working — there's nothing to buy and no account.</li>
+  </ul>
 
-  <div class="btnrow">
-    <a class="btn go" href="privacy.html">Privacy Policy →</a>
-    <a class="btn" href="terms.html">Terms of Use →</a>
-    <a class="btn" href="mailto:bluebirdconnect2026@gmail.com">Contact support</a>
-  </div>
+  <h2>What your server needs</h2>
+  <p>A server iOS can connect to natively with username and password (EAP) sign-in, such as strongSwan,
+    with a certificate iPhone already trusts, such as one from Let's Encrypt. OpenVPN, WireGuard and L2TP
+    servers are not supported. <a href="support.html#what-do-i-need-for-my-own-line">The full list</a> ·
+    <a href="kit/">Build one with the setup script</a></p>
+
+  <p class="note">VolaVPN doesn't provide, rent or manage servers. You choose a cloud provider and pay
+    them directly, if at all. No account, no analytics, no ads.</p>
 </main>
 
-<footer>
-  <span>© 2026 VolaVPN</span>
-  <a href="privacy.html">Privacy</a>
-  <a href="terms.html">Terms</a>
-  <a href="mailto:bluebirdconnect2026@gmail.com">bluebirdconnect2026@gmail.com</a>
-  <span class="sp"></span>
-  <span class="faint">Fast VPN &amp; Network Toolkit</span>
+<footer class="foot">
+  <p>VolaVPN · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a></p>
 </footer>
 </body>
 </html>
