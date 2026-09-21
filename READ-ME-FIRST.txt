@@ -1,38 +1,19 @@
-volavpn-site — files to publish
+volavpn-site — update (2026-09-21, second upload)
 ==========================================================
-Copy everything in this folder into the root of the GitHub repo
+Upload everything here to the root of
   github.com/bluebirdconnect2026/volavpn-site
-keeping the folder structure. GitHub Pages then serves:
+replacing the previous upload. Keep the folder structure.
 
-  https://bluebirdconnect2026.github.io/volavpn-site/
-  .../privacy.html   .../terms.html   .../support.html
-  .../kit/vola-server.sh   .../kit/SHA256SUMS   .../kit/
+WHAT CHANGED SINCE YOUR LAST UPLOAD
+  kit/index.html   FIXED. The version you published shows the raw
+                   text "[KIT_URL]" inside the install commands, so
+                   the copy-paste commands on that page are broken.
+                   This version has the real address.
+  privacy.html     effective date filled; the "server is located in…"
+                   sentence removed; logging statement filled.
+  terms.html       effective date filled; the whole "Governing law"
+                   section removed.
+  index.html       unchanged from the last upload.
+  support.html     unchanged from the last upload.
 
-WHAT CHANGED
-  index.html    already the new positioning ("a client for the VPN
-                server you run"). The LIVE site is still the old
-                "Fast VPN & Network Toolkit" page — replace it.
-  privacy.html  regenerated from the app's own privacy_policy.md
-  terms.html    regenerated from the app's own terms_of_use.md
-                -> the old visible line "Placeholder: set your
-                   governing jurisdiction ... before publishing"
-                   is GONE. That text was live on your terms page.
-  support.html  contact e-mail filled in; FAQ regenerated
-  kit/          NEW. This is what the app's "Build your own line"
-                page downloads. Nothing is served there today (404),
-                which is why the app shows
-                "The download address isn't set in this build."
-
-STILL BLANK — 4 values only you can supply
-  Each appears as a grey em dash (—) marked data-placeholder.
-    POLICY_EFFECTIVE_DATE           privacy.html, terms.html
-    GOVERNING_JURISDICTION          terms.html
-    STARTER_SERVER_REGION           privacy.html
-    CONFIRM_STARTER_LOGGING_POLICY  privacy.html
-  Tell me these four and I will regenerate complete pages and fill
-  the same values into the app, which also unblocks the release gate.
-
-BEFORE YOU PUBLISH kit/
-  vola-server.sh says KIT_VERSION="1.1.0" but the app's KitInfo.swift
-  says "1.1.1". Your own KitInfoTests asserts they match. Decide which
-  is right first.
+NO PLACEHOLDERS REMAIN. render_site --check passes.

@@ -74,18 +74,18 @@
 
   <h2 class="step">3 · Run one command</h2>
   <p>Connect to your server and run:</p>
-<pre class="term">curl -fsSLO [KIT_URL]/vola-server.sh &amp;&amp; sudo bash vola-server.sh install --user phone</pre>
+<pre class="term">curl -fsSLO https://bluebirdconnect2026.github.io/volavpn-site/kit/vola-server.sh &amp;&amp; sudo bash vola-server.sh install --user phone</pre>
   <p class="dim"><code>phone</code> is the VPN username. To use another one, start with a letter; then
     letters, digits, - or _. Up to 32 characters.</p>
   <details>
     <summary>Read the script before you run it</summary>
-<pre class="term">curl -fsSLO [KIT_URL]/vola-server.sh
-curl -fsSLO [KIT_URL]/SHA256SUMS
+<pre class="term">curl -fsSLO https://bluebirdconnect2026.github.io/volavpn-site/kit/vola-server.sh
+curl -fsSLO https://bluebirdconnect2026.github.io/volavpn-site/kit/SHA256SUMS
 sha256sum -c SHA256SUMS
 less vola-server.sh
 sudo bash vola-server.sh install --user phone</pre>
     <p class="dim">The script is plain text. SHA256SUMS lets you check that the file is the one
-      published at [KIT_URL].</p>
+      published at https://bluebirdconnect2026.github.io/volavpn-site/kit.</p>
   </details>
   <p class="dim">Have a domain? Point its A record at the server first, then add
     <code>--host vpn.example.org</code>.</p>
